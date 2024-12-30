@@ -29,6 +29,7 @@ public class Login_Steps {
     public void tearDown() {
         driver.quit();
     }
+
     @Given("I access the webdriver university login page")
     public void i_access_the_webdriver_university_login_page() {
         driver.get("https://www.webdriveruniversity.com/Login-Portal/index.html?");
@@ -36,6 +37,11 @@ public class Login_Steps {
 
     @When("I enter a username {string}")
     public void i_enter_a_username(String username) {
+        driver.findElement(By.id("text")).sendKeys(username);
+    }
+
+    @When("I enter a username {word}")
+    public void i_enter_a_unique_username(String username) {
         driver.findElement(By.id("text")).sendKeys(username);
     }
 
@@ -59,5 +65,11 @@ public class Login_Steps {
     public void i_should_be_presented_with_the_unsuccessful_login_message() {
         String login_Message = driver.switchTo().alert().getText();
         Assert.assertEquals(login_Message, "validation failed");
+    }
+
+    @Then("I should be presented with the following login validation message {}")
+    public void i_should_be_presented_with_the_following_login_validation_message(String expectedMessage) {
+        String login_Message = driver.switchTo().alert().getText();
+        Assert.assertEquals(login_Message, expectedMessage);
     }
 }
